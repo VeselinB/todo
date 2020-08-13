@@ -18,7 +18,10 @@ import 'hammerjs';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({ todo: todoReducer })
+    // Решил си да правиш reducer-a в отделен модул,  в такъв случай не му е  мястото тук
+    // StoreModule.forRoot({ todo: todoReducer })
+    StoreModule.forRoot({})
+
   ],
   providers: [],
   bootstrap: [AppComponent]

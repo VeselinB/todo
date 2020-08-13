@@ -24,6 +24,8 @@ const routes: Route[] = [
     MaterialModule,
     CommonModule,
     RouterModule.forChild(routes),
+    // Понеже редусара е в отделен модул трябва да използваш съответния импорт
+    StoreModule.forFeature('todos', todoReducer)
     // StoreModule.forRoot({ todo: todoReducer })
   ],
 
