@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { StoreModule } from '@ngrx/store';
+import { todoReducer } from './todo/todo.reducers';
+import 'hammerjs';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,8 @@ import { MaterialModule } from './material/material.module';
     MaterialModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    StoreModule.forRoot({ todo: todoReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]

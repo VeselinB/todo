@@ -6,6 +6,8 @@ import { Route, RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { todoReducer } from './todo.reducers';
 
 //import { CourseDialogComponentComponent } from './course-dialog-component/course-dialog-component.component';
 
@@ -22,6 +24,7 @@ const routes: Route[] = [
     MaterialModule,
     CommonModule,
     RouterModule.forChild(routes),
+    // StoreModule.forRoot({ todo: todoReducer })
   ],
 
   entryComponents: [CourseDialogComponent]

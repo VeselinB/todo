@@ -4,8 +4,10 @@
 
     <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList]"
         class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of todo" cdkDrag>
-            <app-todo [data]="item"></app-todo>
+        <div class="example-box" *ngFor="let item of todo; let i = index" cdkDrag>
+            <app-todo (removeTask)="remove($event)" (newData)="openDialog($event)" [data]="item" [index]="i"
+                [typeOfList]="'todo'"></app-todo>
+
         </div>
     </div>
 </div>
@@ -15,8 +17,9 @@
 
     <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" [cdkDropListConnectedTo]="[todoList]"
         class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of done" cdkDrag>
-            <app-todo [data]="item"></app-todo>}
+        <div class="example-box" *ngFor="let item of done;let i = index" cdkDrag>
+            <app-todo (removeTask)="remove($event)" (newData)="openDialog($event)" [data]="item" [index]="i"
+                [typeOfList]="'done'"></app-todo>
         </div>
     </div>
 

@@ -1,7 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
-import { MatDialogConfig, MatDialog } from '@angular/material';
-import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
-import { EventEmitter } from 'protractor';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-todo',
@@ -10,26 +7,37 @@ import { EventEmitter } from 'protractor';
 })
 export class TodoComponent implements OnInit {
   @Input() data;
+  @Input() typeOfList;
+  @Input() index;
+  @Input() showButton;
   @Output() newData = new EventEmitter()
+  @Output() removeTask = new EventEmitter()
 
-  constructor(private dialog: MatDialog) {
+  constructor() {
     console.log(this.data)
   }
   ngOnInit() {
 
   }
-
-  openDialog(): void {
-
-    const dialogRef = this.dialog.open(CourseDialogComponent, {
-      width: '350px',
-      data: { description: this.data.description, title: this.data.title, edit: true }
-    });
-    dialogRef.afterClosed().subscribe(
-      data => console.log("Dialog output:", data)
-    );
-
+  remove() {
+    console.log(this.index, this.typeOfList)
+    this.removeTask.next({ index: this.index, typeOfList: this.typeOfList })
   }
+  openDialog() {
+    console.log("test")
+    this.newData.emit({ description: this.data.description, title: this.data.title, edit: true })
+  }
+  // openDialog(): void {
+
+  //   const dialogRef = this.dialog.open(CourseDialogComponent, {
+  //     width: '350px',
+  //     data: { description: this.data.description, title: this.data.title, edit: true }
+  //   });
+  //   dialogRef.afterClosed().subscribe(
+  //     data => console.log("Dialog output:", data)
+  //   );
+
+  // }
 
 
 }
