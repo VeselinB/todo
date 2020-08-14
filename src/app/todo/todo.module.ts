@@ -8,6 +8,8 @@ import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { todoReducer } from './todo.reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment.prod';
 
 //import { CourseDialogComponentComponent } from './course-dialog-component/course-dialog-component.component';
 
@@ -24,7 +26,11 @@ const routes: Route[] = [
     MaterialModule,
     CommonModule,
     RouterModule.forChild(routes),
-    StoreModule.forRoot({ todo: todoReducer })
+    StoreModule.forRoot({ todo: todoReducer }),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx Demo App',
+      logOnly: environment.production
+    })
   ],
 
   entryComponents: [CourseDialogComponent]
