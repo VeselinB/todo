@@ -1,6 +1,16 @@
 import { createReducer, on, props } from '@ngrx/store';
 import { createNewTask, updateTask, deleteTask, getDoneTasks, updateArrays } from './todo.actions';
 
+export interface Todo {
+    title: string;
+    description: string;
+}
+
+export interface TodoState {
+    todo: Todo[];
+    done: Todo[];
+}
+
 export const initialState = {
     todo: [
         { title: 'Get to work', description: 'Get to work' },

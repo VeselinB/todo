@@ -5,6 +5,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
 import { Store, select } from '@ngrx/store';
 import { deleteTask, updateArrays, createNewTask, updateTask } from '../todo.actions';
+import { AppState } from 'src/app/app-state';
 /**
  * @title Drag&Drop connected sorting
  */
@@ -14,7 +15,7 @@ import { deleteTask, updateArrays, createNewTask, updateTask } from '../todo.act
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent {
-  constructor(private dialog: MatDialog, private store: Store) {
+  constructor(private dialog: MatDialog, private store: Store<AppState>) {
 
     this.store.select((state) => state).subscribe(data => {
       this.todo = data["todo"]["todo"];
