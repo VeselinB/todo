@@ -20,12 +20,12 @@ export class TodoComponent implements OnInit {
 
   }
   remove() {
-    console.log(this.index, this.typeOfList)
+    // console.log(this.index, this.typeOfList)
     this.removeTask.next({ index: this.index, typeOfList: this.typeOfList })
   }
   openDialog() {
     console.log("test")
-    this.newData.emit({ description: this.data.description, title: this.data.title, edit: true })
+    this.newData.emit({ description: this.data.description, title: this.data.title, edit: true, typeOfList: this.typeOfList, index: this.index })
   }
   // openDialog(): void {
 

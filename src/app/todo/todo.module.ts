@@ -24,7 +24,7 @@ const routes: Route[] = [
     MaterialModule,
     CommonModule,
     RouterModule.forChild(routes),
-    // StoreModule.forRoot({ todo: todoReducer })
+    StoreModule.forRoot({ todo: todoReducer })
   ],
 
   entryComponents: [CourseDialogComponent]
