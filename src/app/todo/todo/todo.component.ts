@@ -14,10 +14,10 @@ export class TodoComponent implements OnInit {
   @Output() removeTask = new EventEmitter()
 
   constructor() {
-    console.log(this.data)
+
   }
   ngOnInit() {
-
+    console.log(this.typeOfList, "typeOfList")
   }
   remove() {
     // console.log(this.index, this.typeOfList)

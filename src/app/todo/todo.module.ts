@@ -26,11 +26,8 @@ const routes: Route[] = [
     MaterialModule,
     CommonModule,
     RouterModule.forChild(routes),
-    StoreModule.forRoot({ todo: todoReducer }),
-    StoreDevtoolsModule.instrument({
-      name: 'NgRx Demo App',
-      logOnly: environment.production
-    })
+    StoreModule.forFeature('todo', todoReducer),
+
   ],
 
   entryComponents: [CourseDialogComponent]

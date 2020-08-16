@@ -36,12 +36,16 @@ export class CourseDialogComponent implements OnInit {
   }
 
   close(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({ data: false });
   }
 
   save() {
     console.log(this.form.get("title").value)
     console.log(this.form.get("description").value)
+
     this.dialogRef.close({ "title": this.form.get("title").value, "description": this.form.get("description").value });
+
+
+
   }
 }

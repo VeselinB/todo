@@ -31,9 +31,9 @@ export const initialState = {
 
 const _todoReducer = createReducer(initialState,
     on(createNewTask, (state, props) => {
-        let data = (props["data"])
+        let data = (props.data)
 
-        let result = state["todo"].slice(0);
+        let result = state.todo.map(a => a);
         result.unshift(data);
         console.log(result)
         let finalResult = { todo: result }
@@ -45,11 +45,12 @@ const _todoReducer = createReducer(initialState,
 
     ),
     on(updateTask, (state, props) => {
-        let typeOfList = props["data"]["typeOfList"]
-        let index = props["data"]["index"]
+        console.log(props.data, "typeData")
+        let typeOfList = props.data.typeOfList
+        let index = props.data.index
         console.log(typeOfList, "typeOfList", index, "index")
         let result = state[typeOfList].slice(0);
-        result[index] = { title: props["data"]["title"], description: props["data"]["description"] }
+        result[index] = { title: props.data.title, description: props.data.description }
         console.log(result)
         if (typeOfList == "todo") {
             result = { todo: result }
@@ -67,10 +68,10 @@ const _todoReducer = createReducer(initialState,
     on(deleteTask, (state, props) => {
         // console.log(props["todo"])
         // const result = props["todo"]
-        console.log(props["typeOfList"])
-        let result = state[props["typeOfList"]].slice(0);
-        result.splice(props["index"], 1);
-        if (props["typeOfList"] == "done") {
+
+        let result = state[props.typeOfList].slice(0);
+        result.splice(props.index, 1);
+        if (props.typeOfList == "done") {
             result = { done: result }
         } else {
             result = { todo: result }
@@ -81,7 +82,7 @@ const _todoReducer = createReducer(initialState,
         }
     }),
     on(updateArrays, (state, props) => {
-        let result = props["todo"]
+        let result = props.todo
         console.log(result)
         return {
             ...state,

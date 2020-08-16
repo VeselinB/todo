@@ -8,6 +8,9 @@ import { MaterialModule } from './material/material.module';
 
 
 import 'hammerjs';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment.prod';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,11 @@ import 'hammerjs';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx Demo App',
+      logOnly: environment.production
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

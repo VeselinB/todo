@@ -6,6 +6,7 @@ import { CourseDialogComponent } from '../course-dialog/course-dialog.component'
 import { Store, select } from '@ngrx/store';
 import { deleteTask, updateArrays, createNewTask, updateTask } from '../todo.actions';
 import { AppState } from 'src/app/app-state';
+import * as selectors from '../todo.selectors';
 /**
  * @title Drag&Drop connected sorting
  */
@@ -17,10 +18,17 @@ import { AppState } from 'src/app/app-state';
 export class TodoListComponent {
   constructor(private dialog: MatDialog, private store: Store<AppState>) {
 
-    this.store.select((state) => state).subscribe(data => {
-      this.todo = data["todo"]["todo"];
-      this.done = data["todo"]["done"];
+    this.store.select(selectors.selectTodoList).subscribe((todo) => {
+      this.todo = todo;
+
     });
+
+    this.store.select(selectors.selectDoneList).subscribe((done) => {
+      this.done = done;
+
+    });
+
+
   }
   // @Output() data = new EventEmitter()
   // public sendData(data) {
@@ -115,6 +123,10 @@ export class TodoListComponent {
     });
     dialogRef.afterClosed().subscribe(
       data => {
+        if (data["data"] == false) {
+          console.log(data)
+          return;
+        }
         console.log("Dialog output:", data)
         if (event.edit == true) {
           let newData = { ...data, index: event.index, typeOfList: event.typeOfList }
