@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./todo/todo.module').then((m) => m.TodoModule),
   },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users/users.module').then((m) => m.UsersModule),
+  },
 ]
 
 @NgModule({

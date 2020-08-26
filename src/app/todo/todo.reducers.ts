@@ -1,9 +1,10 @@
 import { createReducer, on, props } from '@ngrx/store';
 import { createNewTask, updateTask, deleteTask, getDoneTasks, updateArrays } from './todo.actions';
-
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 export interface Todo {
     title: string;
     description: string;
+    userId?: string;
 }
 
 export interface TodoState {
@@ -48,7 +49,7 @@ const _todoReducer = createReducer(initialState,
         console.log(props.data, "typeData")
         let typeOfList = props.data.typeOfList
         let index = props.data.index
-        console.log(typeOfList, "typeOfList", index, "index")
+        //console.log(typeOfList, "typeOfList", index, "index")
         let result = state[typeOfList].slice(0);
         result[index] = { title: props.data.title, description: props.data.description }
         console.log(result)

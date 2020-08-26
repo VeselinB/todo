@@ -1,0 +1,3 @@
+<button mat-button color="primary" (click)="openDialog()">Create new user</button>
+<p *ngFor="let user of users">{{user.user}} {{user.email}} {{user.id}}
+    <button mat-button color="primary" (click)="openDialog(user)">Edit user data</button></p>

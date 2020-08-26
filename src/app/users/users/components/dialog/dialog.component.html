@@ -3,11 +3,11 @@
 
 
     <mat-form-field>
-        <input matInput placeholder="Title" formControlName="title">
+        <input matInput placeholder="User" formControlName="user">
     </mat-form-field>
 
     <mat-form-field>
-        <textarea matInput type="text" placeholder="Task Description" formControlName="description"></textarea>
+        <input matInput type="email" placeholder="email" formControlName="email">
     </mat-form-field>
 
 
@@ -15,5 +15,5 @@
 
 <mat-dialog-actions>
     <button [ngStyle]="{'margin-right': '2px'}" class="mat-raised-button" (click)="close()">Close</button>
-    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+    <button [disabled]="!form.valid" class="mat-raised-button mat-primary" (click)="save()">Save</button>
 </mat-dialog-actions>

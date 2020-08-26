@@ -123,8 +123,8 @@ export class TodoListComponent {
     });
     dialogRef.afterClosed().subscribe(
       data => {
-        if (data["data"] == false) {
-          console.log(data)
+        if (data.data == false) {
+          // console.log(data)
           return;
         }
         console.log("Dialog output:", data)
