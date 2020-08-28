@@ -9,11 +9,19 @@
     <mat-form-field>
         <textarea matInput type="text" placeholder="Task Description" formControlName="description"></textarea>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Select User</mat-label>
+        <mat-select formControlName="user">
 
+            <mat-option *ngFor="let user of users" [value]="user">
+                {{user.user}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
 </mat-dialog-content>
 
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
     <button [ngStyle]="{'margin-right': '2px'}" class="mat-raised-button" (click)="close()">Close</button>
-    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+    <button [disabled]="!form.valid" class="mat-raised-button mat-primary" (click)="save()">Save</button>
 </mat-dialog-actions>

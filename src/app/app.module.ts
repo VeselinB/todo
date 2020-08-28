@@ -11,7 +11,7 @@ import 'hammerjs';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment.prod';
-
+import { reducer } from './users/users/user.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +23,8 @@ import { environment } from 'src/environments/environment.prod';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}),
+
+    StoreModule.forRoot({ "users": reducer }),
     StoreDevtoolsModule.instrument({
       name: 'NgRx Demo App',
       logOnly: environment.production

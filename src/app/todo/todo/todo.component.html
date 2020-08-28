@@ -2,7 +2,8 @@
     <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>{{data.title}}</mat-card-title>
-
+        <mat-card-title *ngIf="!!data.user" style="color:green"> Assigned to {{data.user}}</mat-card-title>
+        <mat-card-title *ngIf="!data.user" style="color:red"> Not assigned to user</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
@@ -12,10 +13,10 @@
             {{data.description}}
         </p>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions align="end">
 
         <button mat-button (click)="openDialog()" *ngIf="typeOfList=='todo' ? true : false">EDIT</button>
-        <button mat-button (click)="remove()">REMOVE</button>
+        <button mat-button class="mat-raised-button mat-warn" (click)="remove()">REMOVE</button>
 
     </mat-card-actions>
 </mat-card>

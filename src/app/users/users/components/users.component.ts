@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app-state';
 import * as Actions from '../users.actions'
@@ -11,13 +11,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UsersComponent implements OnInit {
   public users
-
+  @ViewChild('callAPIDialog', { static: true }) callAPIDialog: TemplateRef<any>;
   constructor(public store: Store<AppState>, private dialog: MatDialog) {
     //this.store.dispatch(Actions.createUser({ user: { user: "Test", email: "uuu", id: uuid() } }))
     console.log("test")
@@ -29,6 +29,26 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+
+  remove(id) {
+    console.log("remove" + id)
+    let dialogRef = this.dialog.open(this.callAPIDialog);
+    dialogRef.afterClosed().subscribe(result => {
+      // Note: If the user clicks outside the dialog or presses the escape key, there'll be no result
+      if (result !== undefined) {
+        if (result === 'yes') {
+          // TODO: Replace the following line with your code.
+          this.store.dispatch(Actions.removeUser({ id: id }))
+          console.log('User clicked yes.');
+        } else if (result === 'no') {
+          // TODO: Replace the following line with your code.
+          console.log('User clicked no.');
+        }
+      }
+    })
+
   }
   openDialog(user = { user: "", email: "", edit: false, id: "" }): void {
     console.log(user)
@@ -51,8 +71,9 @@ export class UserComponent implements OnInit {
           let newData = {}
           console.log(newData, "newData")
           delete data["edit"];
-          console.log(data)
-          this.store.dispatch(Actions.updateUser({ user: data }))
+
+          console.log(data, "balal")
+          this.store.dispatch(Actions.updateUser({ updates: data }))
         } else {
           this.store.dispatch(Actions.createUser({ user: { user: data.user, email: data.email, id: data.id } }))
           // this.store.dispatch(createNewTask({ data: data }))

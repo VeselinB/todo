@@ -7,6 +7,8 @@ import { Store, select } from '@ngrx/store';
 import { deleteTask, updateArrays, createNewTask, updateTask } from '../todo.actions';
 import { AppState } from 'src/app/app-state';
 import * as selectors from '../todo.selectors';
+import { ActivatedRoute } from '@angular/router';
+
 /**
  * @title Drag&Drop connected sorting
  */
@@ -16,25 +18,8 @@ import * as selectors from '../todo.selectors';
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent {
-  constructor(private dialog: MatDialog, private store: Store<AppState>) {
-
-    this.store.select(selectors.selectTodoList).subscribe((todo) => {
-      this.todo = todo;
-
-    });
-
-    this.store.select(selectors.selectDoneList).subscribe((done) => {
-      this.done = done;
-
-    });
-
-
-  }
-  // @Output() data = new EventEmitter()
-  // public sendData(data) {
-  //   this.data.emit(data);
-  // }
   @Output() showButton = false;
+  id;
   todo = [
     // { title: 'Get to work', description: 'Get to work' },
     // { title: 'Pick up groceries', description: 'Pick up groceries' },
@@ -51,6 +36,55 @@ export class TodoListComponent {
     // { title: 'Fall asleep', description: 'Get to work' },
 
   ];
+  users = {};
+  username;
+  constructor(private dialog: MatDialog, private store: Store<AppState>, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      // console.log(params) //log the entire params object
+      this.id = params['id']//log the value of id
+    });
+    console.log(this.id)
+    if (!!this.id) {
+      this.store.select(selectors.selectDoneListForUser, { id: this.id }).subscribe((done) => {
+        this.done = done;
+
+      });
+
+      this.store.select(store => store.users.entities[this.id]).subscribe(user => {
+        this.username = user.user;
+      })
+
+
+
+
+
+      this.store.select(selectors.selectTodoListForUser, { id: this.id }).subscribe((todo) => {
+        this.todo = todo;
+
+      });
+    } else {
+      this.store.select(selectors.selectTodoList).subscribe((todo) => {
+        this.todo = todo;
+
+      });
+
+      this.store.select(selectors.selectDoneList).subscribe((done) => {
+        this.done = done;
+
+      });
+    }
+    this.store.select(select => select.users.entities).subscribe(entities => {
+      this.users = entities
+      // console.log(this.users)
+    })
+
+
+
+  }
+  // @Output() data = new EventEmitter()
+  // public sendData(data) {
+  //   this.data.emit(data);
+  // }
 
   remove(event) {
     if (event.typeOfList == "done") {
@@ -71,34 +105,37 @@ export class TodoListComponent {
   }
 
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<string[]>, type: String) {
 
-    if (event.container.id == "cdk-drop-list-0" && event.previousContainer === event.container) {
+    if (type == 'todo' && event.previousContainer === event.container) {
       let newArry = this.todo.slice(0)
       let element = this.todo[event.previousIndex];
       newArry.splice(event.previousIndex, 1);
       newArry.splice(event.currentIndex, 0, element);
+      console.log("1")
       this.store.dispatch(updateArrays({ todo: { todo: newArry, done: this.done } }))
       // console.log("todo", event.container.id, event.previousIndex, event.currentIndex)
-    } else if (event.container.id == "cdk-drop-list-1" && event.previousContainer === event.container) {
+    } else if (type == 'done' && event.previousContainer === event.container) {
       let element = this.done[event.previousIndex];
       let newArry = this.done.slice(0)
       newArry.splice(event.previousIndex, 1);
       newArry.splice(event.currentIndex, 0, element);
       this.store.dispatch(updateArrays({ todo: { todo: this.todo, done: newArry } }))
-    } else if (event.container.id == "cdk-drop-list-0" && event.previousContainer.id == "cdk-drop-list-1") {
+      console.log("2")
+    } else if (type == 'todo' && event.container.id < event.previousContainer.id) {
       let newArryDone = this.done.slice(0)
       let newArryTodo = this.todo.slice(0)
       newArryTodo.splice(event.currentIndex, 0, this.done[event.previousIndex]);
       newArryDone.splice(event.previousIndex, 1);
       this.store.dispatch(updateArrays({ todo: { todo: newArryTodo, done: newArryDone } }))
-    } else if (event.container.id == "cdk-drop-list-1" && event.previousContainer.id == "cdk-drop-list-0") {
+      console.log("3")
+    } else if (type == 'done' && event.container.id > event.previousContainer.id) {
       let newArryDone = this.done.slice(0)
       let newArryTodo = this.todo.slice(0)
       newArryDone.splice(event.currentIndex, 0, this.todo[event.previousIndex]);
       newArryTodo.splice(event.previousIndex, 1);
       this.store.dispatch(updateArrays({ todo: { todo: newArryTodo, done: newArryDone } }))
-
+      console.log("4")
     }
 
     //console.log(event.container)
@@ -117,9 +154,12 @@ export class TodoListComponent {
   }
   openDialog(event = { description: "", title: "", edit: false, index: 0, typeOfList: undefined }): void {
     //console.log(event)
+    if (Object.keys(this.users).length == 0) {
+      //console.log("Object is empty")
+    }
     const dialogRef = this.dialog.open(CourseDialogComponent, {
       width: '350px',
-      data: { description: event.description, title: event.title, edit: event.edit }
+      data: { description: event.description, title: event.title, edit: event.edit, users: this.users }
     });
     dialogRef.afterClosed().subscribe(
       data => {

@@ -5,6 +5,7 @@ export interface Todo {
     title: string;
     description: string;
     userId?: string;
+    name?: string;
 }
 
 export interface TodoState {
@@ -51,7 +52,7 @@ const _todoReducer = createReducer(initialState,
         let index = props.data.index
         //console.log(typeOfList, "typeOfList", index, "index")
         let result = state[typeOfList].slice(0);
-        result[index] = { title: props.data.title, description: props.data.description }
+        result[index] = { title: props.data.title, description: props.data.description, userId: props.data.userId, user: props.data.user }
         console.log(result)
         if (typeOfList == "todo") {
             result = { todo: result }
@@ -84,7 +85,7 @@ const _todoReducer = createReducer(initialState,
     }),
     on(updateArrays, (state, props) => {
         let result = props.todo
-        console.log(result)
+        //console.log("result:" + result)
         return {
             ...state,
             ...result

@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { createReducer, Action, on, createFeatureSelector } from '@ngrx/store';
+import { createReducer, Action, on, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as Actions from '../users/users.actions'
 
 export interface User {
@@ -20,14 +20,21 @@ export const userReducer = createReducer(
         //console.log(props.user)
         return adapter.addOne(user, state);
     }),
-    on(Actions.updateUser, (state, { user }) => {
-        console.log(user)
-        return adapter.updateOne(user, state);
-    })
+    on(Actions.updateUser, (state, { updates }) => {
+        console.log(updates, "updates")
+        return adapter.updateOne(updates, state);
+    }),
+    on(Actions.removeUser, (state, { id }) => {
+        console.log("Action", id)
+        return adapter.removeOne(id, state);
+    }),
 );
+
 
 //export const getUsersState = createFeatureSelector<Users>('store');
 export const { selectAll, selectEntities } = adapter.getSelectors();
+
+
 
 export function reducer(state: Users | undefined, action: Action) {
     return userReducer(state, action);

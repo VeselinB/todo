@@ -1,9 +1,12 @@
 <button mat-button color="primary" (click)="openDialog()">Create new task</button>
+<h1 *ngIf="!!username">User: {{username}}</h1>
+<h1 *ngIf="!username">All Tasks</h1>
 <div class="example-container">
+
     <h2>To do</h2>
 
     <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList]"
-        class="example-list" (cdkDropListDropped)="drop($event)">
+        class="example-list" (cdkDropListDropped)="drop($event, 'todo')">
         <div class="example-box" *ngFor="let item of todo; let i = index" cdkDrag>
             <app-todo (removeTask)="remove($event)" (newData)="openDialog($event)" [data]="item" [index]="i"
                 [typeOfList]="'todo'"></app-todo>
@@ -16,7 +19,7 @@
     <h2>Done</h2>
 
     <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" [cdkDropListConnectedTo]="[todoList]"
-        class="example-list" (cdkDropListDropped)="drop($event)">
+        class="example-list" (cdkDropListDropped)="drop($event, 'done')">
         <div class="example-box" *ngFor="let item of done;let i = index" cdkDrag>
             <app-todo (removeTask)="remove($event)" (newData)="openDialog($event)" [data]="item" [index]="i"
                 [typeOfList]="'done'"></app-todo>

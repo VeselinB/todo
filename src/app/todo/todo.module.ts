@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment.prod';
 
 const routes: Route[] = [
   { path: '', component: TodoListComponent },
+  { path: 'todo/:id', component: TodoListComponent }
 
 ];
 
