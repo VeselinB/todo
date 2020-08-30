@@ -38,6 +38,7 @@ export class TodoListComponent {
   ];
   users = {};
   username;
+  userData;
   constructor(private dialog: MatDialog, private store: Store<AppState>, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       // console.log(params) //log the entire params object
@@ -50,9 +51,7 @@ export class TodoListComponent {
 
       });
 
-      this.store.select(store => store.users.entities[this.id]).subscribe(user => {
-        this.username = user.user;
-      })
+
 
 
 
@@ -152,14 +151,22 @@ export class TodoListComponent {
     }
 
   }
-  openDialog(event = { description: "", title: "", edit: false, index: 0, typeOfList: undefined }): void {
-    //console.log(event)
+  openDialog(event = { description: "", title: "", edit: false, index: 0, typeOfList: undefined, userId: "", userData: "" }): void {
+
     if (Object.keys(this.users).length == 0) {
       //console.log("Object is empty")
     }
+    if (event.userId !== "") {
+      this.store.select(store => store.users.entities[event.userId]).subscribe(user => {
+
+        this.userData = user;
+
+      })
+    }
+
     const dialogRef = this.dialog.open(CourseDialogComponent, {
       width: '350px',
-      data: { description: event.description, title: event.title, edit: event.edit, users: this.users }
+      data: { description: event.description, title: event.title, edit: event.edit, users: this.users, userData: this.userData }
     });
     dialogRef.afterClosed().subscribe(
       data => {
@@ -170,7 +177,10 @@ export class TodoListComponent {
         console.log("Dialog output:", data)
         if (event.edit == true) {
           let newData = { ...data, index: event.index, typeOfList: event.typeOfList }
-          console.log(newData, "newData")
+          // console.log(newData, "newData")
+          if (newData.user == "UnAssign") {
+            newData.user = "";
+          }
           this.store.dispatch(updateTask({ data: newData }))
         } else {
           this.store.dispatch(createNewTask({ data: data }))

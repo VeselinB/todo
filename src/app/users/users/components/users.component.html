@@ -1,7 +1,10 @@
-<button mat-button color="primary" (click)="openDialog()">Create new user</button>
-<p *ngFor="let user of users"><span routerLink="/todos/todo/{{user.id}}">{{user.user}} {{user.email}} {{user.id}}
-    </span><button mat-button color="primary" (click)="openDialog(user)">Edit user data</button> <button mat-button
-        color="warn" (click)="remove(user.id)">Remove</button></p>
+<button mat-button style='margin-left: 5px;' class="mat-raised-button mat-primary" (click)="openDialog()">Create new
+    user</button>
+<p *ngFor="let user of users">
+    <span style="cursor: pointer" routerLink="/todos/todo/{{user.id}}">{{user.user}} {{user.email}} {{user.id}}
+    </span><button style="margin-right: 5px;" mat-button color="primary" (click)="openDialog(user)">Edit user
+        data</button> <button mat-button class="mat-raised-button mat-warn" (click)="remove(user.id)">Remove</button>
+</p>
 
 <ng-template #callAPIDialog>
     <h2 matDialogTitle>Are you sure?</h2>

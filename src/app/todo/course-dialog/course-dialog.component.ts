@@ -8,12 +8,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./course-dialog.component.scss']
 })
 export class CourseDialogComponent implements OnInit {
-  dialogTitle = "Create new task";
-  title: string;
-  description: string;
-  form: FormGroup;
-  users = [{ user: "george" }]
-  id;
+  public dialogTitle = "Create new task";
+  public title: string;
+  public description: string;
+  public form: FormGroup;
+  public users
+  public publicid;
+  public unAssign;
+
 
 
 
@@ -29,12 +31,18 @@ export class CourseDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(Object.values(this.data.users))
+    //console.log(Object.values(this.data.users))
     this.users = Object.values(this.data.users);
+    this.unAssign = { user: "UnAssign" };
     this.form = this.formBuilder.group({
       title: [this.data.title, Validators.required],
       description: [this.data.description, Validators.required],
-      user: "",
+      user: null,
+
+    });
+    this.form.get('user').patchValue(this.data.userData);
+    this.form.valueChanges.subscribe(value => {
+      console.log('has changed:', value.user)
 
     });
   }
@@ -44,14 +52,13 @@ export class CourseDialogComponent implements OnInit {
   }
 
   save() {
-    // console.log(this.form.get("title").value)
-    // console.log(this.form.get("description").value)
-    // console.log(this.id)
-    // console.log( this.form.get("user").value.id)
+
 
     this.dialogRef.close({ "title": this.form.get("title").value, "description": this.form.get("description").value, "userId": this.form.get("user").value.id, "user": this.form.get("user").value.user });
 
 
 
   }
+
+
 }

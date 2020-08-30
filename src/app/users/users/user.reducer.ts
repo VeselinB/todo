@@ -14,28 +14,38 @@ export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
 
 export const initialState: Users = adapter.getInitialState();
 
+//reducers:
 export const userReducer = createReducer(
     initialState,
     on(Actions.createUser, (state, { user }) => {
         //console.log(props.user)
         return adapter.addOne(user, state);
     }),
-    on(Actions.updateUser, (state, { updates }) => {
-        console.log(updates, "updates")
-        return adapter.updateOne(updates, state);
+
+
+    on(Actions.updateUser, (state, { update }) => {
+
+        return adapter.upsertOne(update, state);
+
     }),
+
     on(Actions.removeUser, (state, { id }) => {
-        console.log("Action", id)
+
         return adapter.removeOne(id, state);
     }),
 );
 
 
-//export const getUsersState = createFeatureSelector<Users>('store');
+//Selectors:
 export const { selectAll, selectEntities } = adapter.getSelectors();
 
+export const selectUserState = createFeatureSelector<Users>('users');
+export const selectUserEntities = createSelector(
+    selectUserState,
+    selectEntities
+);
 
-
+//
 export function reducer(state: Users | undefined, action: Action) {
     return userReducer(state, action);
 }

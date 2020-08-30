@@ -38,9 +38,15 @@ export class DialogComponent implements OnInit {
   save() {
     console.log(this.form.get("user").value)
     console.log(this.form.get("email").value)
-    //console.log("id", this.data.id)
 
-    this.dialogRef.close({ "user": this.form.get("user").value, "email": this.form.get("email").value, "id": uuid(), edit: this.data.edit });
+    if (this.data.edit == true) {
+      console.log("edit", this.data)
+      this.dialogRef.close({ "user": this.form.get("user").value, "email": this.form.get("email").value, "id": this.data.id, edit: this.data.edit });
+
+    } else {
+      this.dialogRef.close({ "user": this.form.get("user").value, "email": this.form.get("email").value, "id": uuid(), edit: this.data.edit });
+
+    }
 
 
 

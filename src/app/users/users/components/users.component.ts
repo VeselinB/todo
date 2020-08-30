@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
 
     this.store.select(store => store.users).subscribe(store => {
       this.users = Object.values(store.entities)
-      // console.log("idFirst", this.users[0].id)
+
     })
   }
 
@@ -33,18 +33,18 @@ export class UsersComponent implements OnInit {
 
 
   remove(id) {
-    console.log("remove" + id)
+
     let dialogRef = this.dialog.open(this.callAPIDialog);
     dialogRef.afterClosed().subscribe(result => {
-      // Note: If the user clicks outside the dialog or presses the escape key, there'll be no result
+
       if (result !== undefined) {
         if (result === 'yes') {
-          // TODO: Replace the following line with your code.
+
           this.store.dispatch(Actions.removeUser({ id: id }))
           console.log('User clicked yes.');
         } else if (result === 'no') {
-          // TODO: Replace the following line with your code.
-          console.log('User clicked no.');
+
+          //  console.log('User clicked no.');
         }
       }
     })
@@ -68,15 +68,16 @@ export class UsersComponent implements OnInit {
         }
         console.log("Dialog output:", data)
         if (data.edit == true) {
-          let newData = {}
-          console.log(newData, "newData")
+
+
           delete data["edit"];
 
-          console.log(data, "balal")
-          this.store.dispatch(Actions.updateUser({ updates: data }))
+
+          this.store.dispatch(Actions.updateUser({ update: data }))
+
         } else {
           this.store.dispatch(Actions.createUser({ user: { user: data.user, email: data.email, id: data.id } }))
-          // this.store.dispatch(createNewTask({ data: data }))
+
         }
 
       }

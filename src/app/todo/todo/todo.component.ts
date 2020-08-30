@@ -17,27 +17,17 @@ export class TodoComponent implements OnInit {
 
   }
   ngOnInit() {
-    console.log(this.typeOfList, "typeOfList")
+
   }
   remove() {
     // console.log(this.index, this.typeOfList)
     this.removeTask.next({ index: this.index, typeOfList: this.typeOfList })
   }
   openDialog() {
-    console.log("test")
-    this.newData.emit({ description: this.data.description, title: this.data.title, edit: true, typeOfList: this.typeOfList, index: this.index })
+
+    this.newData.emit({ description: this.data.description, title: this.data.title, edit: true, typeOfList: this.typeOfList, index: this.index, userId: this.data.userId })
   }
-  // openDialog(): void {
 
-  //   const dialogRef = this.dialog.open(CourseDialogComponent, {
-  //     width: '350px',
-  //     data: { description: this.data.description, title: this.data.title, edit: true }
-  //   });
-  //   dialogRef.afterClosed().subscribe(
-  //     data => console.log("Dialog output:", data)
-  //   );
-
-  // }
 
 
 }
